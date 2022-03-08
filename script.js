@@ -1,35 +1,32 @@
-// Looping a Triangle
-let value = "#";
-while (value.length < 7) {
-  console.log(value);
-
-  value = value + "#";
-}
-
-// FizzBuzz
-for (let i = 0; i <= 100; i++) {
-  if (i % 3 == 0) {
-    console.log("frizz");
-  } else if (i % 5 == 0) {
-    console.log("buzz");
-  } else if (i % 3 == 0 && i % 5 == 0) {
-    console.log("frizzBuzz");
-  } else {
-    console.log(i);
-  }
-}
-
-//checssBoard
-const chessBoard = function (num) {
-  let output = "";
-
-  for (let i = 0; i < num; i++) {
-    for (let j = 0; j < num; j++) {
-      (i + j) % 2 == 0 ? (output += " ") : (output += "#");
-    }
-    output += "\n";
-  }
-  console.log(output);
+// Minimum
+const min = function (x, y) {
+  if (x > y) return y;
+  if (x < y) return x;
 };
 
-chessBoard(5);
+console.log(min(2, 5));
+
+//Bean Counting
+function countBs(str) {
+  let count = 0;
+  for (let i = 0; i < str.length; i++) {
+    if (str.charAt(i) === "B") {
+      count++;
+    }
+  }
+  return count;
+}
+
+console.log(countBs("ABCACBBCBA"));
+
+const countChart = function (str, char) {
+  let count = 0;
+  for (let i = 0; i < str.length; i++) {
+    if (str.charAt(i) === char) {
+      count++;
+    }
+  }
+  return count;
+};
+
+console.log(countChart("ABCACBBCBA", "A"));
