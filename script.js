@@ -1,51 +1,55 @@
-// Range function
-const range = function (start, end) {
-  let arr = [];
+'use strict';
 
-  for (let i = start; i <= end; i++) {
-    arr.push(i);
-  }
-  return arr;
+let updatevalue;
+let highscore = document.querySelector('.highscore').textContent;
+
+// function deduct scores after checked
+const deductScore = function () {
+  const value = document.querySelector('.score').textContent;
+  updatevalue = +value - 1;
+  document.querySelector('.score').textContent = updatevalue;
+  return updatevalue;
 };
 
-// Sum function
-const sum = function sum(arr) {
-  let sum = 0;
-
-  for (let i = 0; i < arr.length; i++) {
-    sum += arr[i];
+// function get high score
+const getHighScore = function () {
+  if (updatevalue > highscore) {
+    highscore = updatevalue;
+    document.querySelector('.highscore').textContent = +highscore;
   }
-  return sum;
 };
 
-console.log(sum(range(1, 4)));
+// random number
+let secretNumber = Math.trunc(Math.random() * 20) + 1;
 
-// range function with 3 arguments
-const rangePlus = function (start, end, increment) {
-  var result = [];
+//event click to check the score
+document.querySelector('.check').addEventListener('click', function () {
+  const guess = +document.querySelector('.guess').value;
 
-  if (increment == undefined) increment = 1;
+  if (!guess) {
+    document.querySelector('.message').textContent = '🚫 No number! ';
+  } else if (guess === secretNumber) {
+    document.querySelector('.message').textContent = '🎉 Correct number!';
+    document.body.style.backgroundColor = '#60b347';
+    document.querySelector('.number').textContent = secretNumber;
 
-  let numLoops = Math.abs((end - start) / increment) + 1;
-
-  for (var i = 1; i < numLoops; i++) {
-    result.push(start);
-
-    start += increment;
+    getHighScore();
+  } else if (guess > secretNumber) {
+    document.querySelector('.message').textContent = '📈 too high';
+    deductScore();
+  } else if (guess < secretNumber) {
+    document.querySelector('.message').textContent = '📉 too low';
+    deductScore();
   }
+});
 
-  return result;
-};
+// event click to play again the game
+document.querySelector('.again').addEventListener('click', function () {
+  document.querySelector('.guess').value = '';
+  document.querySelector('.message').textContent = 'Start guessing...';
+  document.querySelector('.score').textContent = 20;
+  document.querySelector('.number').textContent = '?';
+  document.body.style.backgroundColor = '#222';
 
-console.log(rangePlus(1, 9, 2));
-
-// Reversing
-const reversing = function (arr) {
-  let newArr = [];
-  for (let i = arr.length - 1; i >= 0; i--) {
-    newArr.push(arr[i]);
-  }
-  return newArr;
-};
-
-console.log(reversing([1, 2, 3, 2, 3]));
+  secretNumber = Math.trunc(Math.random() * 20) + 1;
+});
