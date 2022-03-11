@@ -1,108 +1,69 @@
-'use strict';
-
-// selecting elments
-const score0El = document.getElementById('score--0');
-const score1El = document.getElementById('score--1');
-const diceEl = document.querySelector('.dice');
-const btnNew = document.querySelector('.btn--new');
-const btnRoll = document.querySelector('.btn--roll');
-const btnHold = document.querySelector('.btn--hold');
-
-const current0El = document.getElementById('current--0');
-const current1El = document.getElementById('current--1');
-const player0El = document.querySelector('.player--0');
-const player1El = document.querySelector('.player--1');
-
-let scores, currentScore, activePlayer, playerScore, playing;
-
-//init
-const init = function () {
-  scores = [0, 0];
-  currentScore = 0;
-  activePlayer = 0;
-  playerScore = 0;
-  //starting condition
-  playing = true;
-
-  player0El.classList.remove('player--winner');
-  player1El.classList.remove('player--winner');
-  player0El.classList.add('player--active');
-  player1El.classList.remove('player--active');
-
-  score0El.textContent = 0;
-  score1El.textContent = 0;
-  current0El.textContent = 0;
-  current1El.textContent = 0;
-
-  diceEl.classList.add('hidden');
-};
-init();
-
-// function switch player
-const switchFlayer = function () {
-  document.getElementById(`current--${activePlayer}`).textContent = 0;
-  currentScore = 0;
-  activePlayer = activePlayer === 0 ? 1 : 0;
-  player0El.classList.toggle('player--active');
-  player1El.classList.toggle('player--active');
+// Exercise 1
+const game = {
+  team1: 'Bayern Munich',
+  team2: 'Borrussia Dortmund',
+  players: [
+    [
+      'Neuer',
+      'Pavard',
+      'Martinez',
+      'Alaba',
+      'Davies',
+      'Kimmich',
+      'Goretzka',
+      'Coman',
+      'Muller',
+      'Gnarby',
+      'Lewandowski',
+    ],
+    [
+      'Burki',
+      'Schulz',
+      'Hummels',
+      'Akanji',
+      'Hakimi',
+      'Weigl',
+      'Witsel',
+      'Hazard',
+      'Brandt',
+      'Sancho',
+      'Gotze',
+    ],
+  ],
+  score: '4:0',
+  scored: ['Lewandowski', 'Gnarby', 'Lewandowski', 'Hummels'],
+  date: 'Nov 9th, 2037',
+  odds: {
+    team1: 1.33,
+    x: 3.25,
+    team2: 6.5,
+  },
 };
 
-// rolling a dice event
-btnRoll.addEventListener('click', function () {
-  if (playing) {
-    //1. generating a random dice roll
-    const dice = Math.trunc(Math.random() * 6) + 1;
+const [player1, player2] = game.players;
+console.log(player1, player2);
 
-    //2. display dice
-    diceEl.classList.remove('hidden');
-    diceEl.src = `dice-${dice}.png`;
+const [gk, ...fieldPlayers] = player1;
+console.log(gk, fieldPlayers);
 
-    //3. check for rolled 1: if true, switch to next player
-    if (dice !== 1) {
-      // add dice to current score
-      currentScore += dice;
-      document.getElementById(`current--${activePlayer}`).textContent =
-        currentScore;
-    } else {
-      // switch to next player
-      switchFlayer();
-    }
+const allPlayers = [...player1, ...player2];
+console.log(allPlayers);
 
-    //   if (activePlayer === 0) {
-    //     player0El.classList.add('player--active');
-    //     player1El.classList.remove('player--active');
-    //   } else {
-    //     player0El.classList.remove('player--active');
-    //     player1El.classList.add('player--active');
-    //   }
-  }
-});
+const playerFinal = [...player1, ...['Thiago', 'Coutinho', 'Perisic']];
+console.log(playerFinal);
 
-// holding currentScore event
-btnHold.addEventListener('click', function () {
-  if (playing) {
-    //1. add current score to active player's score
-    scores[activePlayer] += currentScore;
-    document.getElementById(`score--${activePlayer}`).textContent =
-      scores[activePlayer];
-    currentScore = 0;
+const {
+  odds: { team1, x: draw, team2 },
+} = game;
+console.log(team1, draw, team2);
 
-    //2. check if player 's score is >= 10
-    if (scores[activePlayer] >= 10) {
-      document
-        .querySelector(`.player--${activePlayer}`)
-        .classList.add('player--winner');
-      document
-        .querySelector(`.player--${activePlayer}`)
-        .classList.remove('player--active');
-      diceEl.classList.add('hidden');
-      playing = false;
-    }
+const printGoals = function (...players) {
+  console.log(`${players.length} goals were scored`);
+};
 
-    // switch to the next player
-    switchFlayer();
-  }
-});
+printGoals('Davies', 'Muller', 'Kimmich');
+printGoals('Davies', 'Muller');
+printGoals(game.scored);
 
-// new game event
-btnNew.addEventListener('click', init);
+team1 < team2 && console.log(' Team 1 is win');
+team1 > team2 && console.log(' Team 2 is win');
