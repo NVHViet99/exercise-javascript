@@ -130,3 +130,25 @@ for (const player of game.scored) {
   scorers[player] ? scorers[player]++ : (scorers[player] = 1);
 }
 console.log(scorers); // {Lewandowski: 2, Gnarby: 1, Hummels: 1}
+
+// ===============Exercise 3===============
+
+//1.  get all of the events that have unique value in gameEvents
+const events = [...new Set(gameEvents.values())];
+console.log(events);
+
+//2. delete key 64
+console.log(gameEvents.delete(64));
+
+//.3 get the last value in game events
+const time = [...gameEvents.keys()].pop();
+console.log(time);
+console.log(
+  `An event happened, on average, every ${time / gameEvents.size} minutes`
+);
+
+//.4 add first and second half for the game
+for (const [min, event] of gameEvents) {
+  const half = min <= 45 ? 'FIRST' : 'SECOND';
+  console.log(`${half} HALF ${min}: ${event}`);
+}
